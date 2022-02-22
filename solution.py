@@ -6,13 +6,13 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    endmsg = "\r\n.\r\n"
 
    # Choose a mail server (e.g. Google mail server) if you want to verify the script beyond GradeScope
-   mailserver = ("smtp.gmail.com", 2525)
+ 
    # Create socket called clientSocket and establish a TCP connection with mailserver and port
 
    # Fill in start
    # Fill in end
    clientSocket = socket(AF_INET, SOCK_STREAM)
-   clientSocket.connect(mailserver)
+   clientSocket.connect((mailserver,port))
    
    recv = clientSocket.recv(1024).decode()
    #print(recv)
@@ -23,9 +23,9 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    heloCommand = 'HELO Alice\r\n'
    clientSocket.send(heloCommand.encode())
    recv1 = clientSocket.recv(1024).decode()
-   #print(recv1)
-   #if recv1[:3] != '250':
-       #print('250 reply not received from server.')
+   print(recv1)
+   if recv1[:3] != '250':
+       print('250 reply not received from server.')
 
    # Send MAIL FROM command and print server response.
    # Fill in start
@@ -52,16 +52,14 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    # Send message data.
    # Fill in start
    # Fill in end
-   subject = "Subject: SMTP mail client testing \r\n\r\n" 
-   clientSocket.send(subject.encode())
-   message = raw_input("Enter your message: \r\n")
+   message = "\r\n.\r\n"
    clientSocket.send(message.encode())
-   clientSocket.send(endmsg.encode())
-   recv_msg = clientSocket.recv(1024)
 
    # Message ends with a single period.
    # Fill in start
    # Fill in end
+   endmsg = "\r\n.\r\n"
+   clientSocket.send(endmsg.encode())
 
    # Send QUIT command and get server response.
    # Fill in start
